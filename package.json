@@ -1,0 +1,9 @@
+{
+  "name": "amizloop",
+  "version": "0.1.0",
+  "description": "Adaptive, token-efficient SDLC loop for AI coding agents (Claude, Copilot, Codex, Grok).",
+  "bin": { "amizloop": "bin/amizloop.js" },
+  "files": ["bin", "adapters", "core", "skills", "agents", "templates", "extensions"],
+  "scripts": { "test": "node --test tests/amizloop.test.js" },
+  "engines": { "node": ">=18" }
+}
