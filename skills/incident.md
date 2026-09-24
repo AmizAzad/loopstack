@@ -10,4 +10,4 @@ Production-changing actions need user approval.
 4. Timeline from logs, metrics, deploys (timestamped facts).
 5. Root cause via /investigate; 5 whys down to systemic gaps (tests, monitoring, process), no blame.
 6. Corrective actions with owner and priority: regression tests, alerts, runbook updates.
-7. Log: `.amizloop/templates/incident.md`. Sev1–2 blameless postmortem: `.amizloop/templates/postmortem.md`.
+7. Log: `.loopstack/templates/incident.md`. Sev1–2 blameless postmortem: `.loopstack/templates/postmortem.md`.

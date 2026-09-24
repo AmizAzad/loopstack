@@ -9,4 +9,4 @@ description: Turn intent into testable requirements, acceptance criteria, busine
 - Acceptance criteria as Given/When/Then, each observable.
 - Business rules, edge cases, error scenarios, constraints, dependencies, assumptions, risks.
 Per AC: can a test prove pass/fail? No → rewrite.
-Templates: `.amizloop/templates/requirements.md`, `.amizloop/templates/user-story.md`, `.amizloop/templates/acceptance-criteria.md`.
+Templates: `.loopstack/templates/requirements.md`, `.loopstack/templates/user-story.md`, `.loopstack/templates/acceptance-criteria.md`.

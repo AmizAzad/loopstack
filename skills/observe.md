@@ -8,6 +8,6 @@ Instrument new/changed paths:
 - Metrics: RED (rate, errors, duration) per service, USE (utilization, saturation, errors) per resource, key business KPIs.
 - Distributed tracing across hops; health/readiness checks.
 Operate:
-- SLI → SLO → error budget. Alert on symptoms/budget burn, not causes; every alert actionable with a runbook (`.amizloop/templates/runbook.md`).
+- SLI → SLO → error budget. Alert on symptoms/budget burn, not causes; every alert actionable with a runbook (`.loopstack/templates/runbook.md`).
 - After deploy compare to baseline; report observed numbers.
 Feed the loop: regression → /debug, trend → /performance, capacity limit → /plan, usage insight → /product.

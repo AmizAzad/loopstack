@@ -11,4 +11,4 @@ Finding format: `SEVERITY file:line — problem → fix`
 - SUGGESTION: optional improvement.
 - NIT: trivial/style.
 Real issues only; "no findings" is a valid result. Self-review your own changes the same way before calling them done.
-Formal: `.amizloop/templates/review.md`.
+Formal: `.loopstack/templates/review.md`.

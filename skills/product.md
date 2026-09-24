@@ -11,4 +11,4 @@ Produce only what is unknown:
 - Scope: MVP in / out / later.
 - Constraints: UX & accessibility (WCAG), localization, regulatory/compliance (privacy, data residency, audit).
 Vague ask → "what outcome, for whom, measured how?" Unanswered items become open questions, never invented answers.
-Template: `.amizloop/templates/problem.md`.
+Template: `.loopstack/templates/problem.md`.

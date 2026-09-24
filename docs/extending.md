@@ -3,17 +3,17 @@
 Never edit core. Add layers, which are merged in this order when `sync` runs:
 
 ```
-amizloop core → technology → organization → project → .amizloop-local/ (repo)
+loopstack core → technology → organization → project → .loopstack-local/ (repo)
 ```
 
 ```json
-// amizloop.json
+// loopstack.json
 {
   "harnesses": ["claude", "copilot"],
-  "layers": ["~/eng/amizloop-java", "~/eng/acme-standards", "./tools/amizloop-project"]
+  "layers": ["~/eng/loopstack-java", "~/eng/acme-standards", "./tools/loopstack-project"]
 }
 ```
-`.amizloop-local/` in the repo root is always applied last if it exists.
+`.loopstack-local/` in the repo root is always applied last if it exists.
 
 ## Layer contents
 Every folder is optional:
@@ -41,7 +41,7 @@ Keep descriptions under 110 characters and free of `": "`. Keep the body under a
 
 ## Custom adapter
 ```json
-{ "harnesses": ["mytool"], "adapters": { "mytool": "./amizloop-mytool.js" } }
+{ "harnesses": ["mytool"], "adapters": { "mytool": "./loopstack-mytool.js" } }
 ```
 ```js
 // Receives the merged bundle b (Maps: skills, agents, templates, gates, rules) and helpers h.

@@ -13,4 +13,4 @@ Check what applies:
 - Privacy: PII minimization, retention, consent, log redaction.
 - Audit logs for security-relevant actions; secure defaults and config.
 Refs: OWASP Top 10, ASVS, API Security Top 10. Run available scanners (SAST, dependency audit, secret scan); report actual output.
-Severities as /review. Template: `.amizloop/templates/security-review.md`.
+Severities as /review. Template: `.loopstack/templates/security-review.md`.

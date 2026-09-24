@@ -13,4 +13,4 @@ Cover only what the change touches:
 - Performance budget; failure modes (timeouts, partial failure, backpressure).
 - UI → /frontend.
 Diagram flows when it clarifies (mermaid sequence). Note rejected alternatives.
-Template: `.amizloop/templates/design.md`.
+Template: `.loopstack/templates/design.md`.

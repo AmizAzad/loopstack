@@ -5,7 +5,7 @@ explicit: true
 ---
 # /debate
 Run only when the user invokes it.
-Setup: question; criteria; roles (default Architect, Implementer, Skeptic; user picks from `.amizloop/agents/`); rounds (default 2).
+Setup: question; criteria; roles (default Architect, Implementer, Skeptic; user picks from `.loopstack/agents/`); rounds (default 2).
 1. Propose: each role independently states position + evidence (separate agent per role if the harness supports it, else clearly separated personas). Brief each with its role file only.
 2. Critique: each attacks the others' assumptions, risks and weak evidence.
 3. Defend: respond, concede or revise.
