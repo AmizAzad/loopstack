@@ -3,6 +3,8 @@ Illustrative trace, not a recorded run.
 
 > Add CSV export of invoices for accounting.
 
+No command given, so the task goes through `/amizing-mode`.
+
 - **Intake** (questions asked together): Maximum rows? Which columns? Immediate download or emailed? → Up to 200k rows, async with an emailed link.
 - **Size**: L3 (new async job, new endpoint, PII). Read `.loopstack/learnings.md` first.
 - **/requirements**: 5 Given/When/Then ACs. NFRs: 200k rows in under 2 min; link expires after 24 h.

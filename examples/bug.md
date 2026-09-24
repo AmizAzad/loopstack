@@ -3,6 +3,8 @@ Illustrative trace, not a recorded run.
 
 > Users with an apostrophe in their name can't save their profile.
 
+No command given, so the task goes through `/amizing-mode`.
+
 - **Size**: L1 (one validator, no contract change). Route: ship start → understand → debug → tdd → implement → review → verify → ship finish.
 - **/ship start**: `git fetch origin main`, then `git switch -c fix/profile-apostrophe origin/main`.
 - **/understand**: `ProfileValidator.java:42` has regex `^[A-Za-z ]+$`. It is called by `ProfileController.update`. `ProfileValidatorTest` has no apostrophe case.
