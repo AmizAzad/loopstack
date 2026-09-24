@@ -20,8 +20,8 @@ description: Orchestrate an engineering task - size it, run only the needed skil
 - question: understand|research → answer with evidence tags
 Each step = skill `/name`; load it only when the step runs.
 4. Gates (only when triggered): requirements L2+ · architecture L3+ · implementation (builds, lint) · testing · security (auth, input, secrets, deps, PII) · review L1+ · verification always · release/deployment if shipping · production L3+ shipped · extension gates `.amizloop/gates/*.md`. Gate fails → loop back to the failing step.
-5. Execute: one-line result per step. Evidence contradicts plan → replan.
-6. Verify: /verify (L0: quick check, still with evidence).
+5. Execute: one-line result per step. Evidence contradicts plan → replan. Code change in a git repo → /ship start before the first edit.
+6. Verify: /verify (L0: quick check, still with evidence). Passed → /ship finish (commit, push with approval).
 7. Learn: non-obvious lesson (gotcha, wrong assumption, missing test) → append one line to `.amizloop/learnings.md`.
 8. Report: done · evidence · unverified · next loop (follow-ups, risks).
 Never auto-run explicit-only skills; suggest one when it clearly helps (e.g. /arena for a close design call).

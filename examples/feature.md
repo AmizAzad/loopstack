@@ -13,5 +13,6 @@ Illustrative trace, not a recorded run.
 - **/review**: IMPORTANT: unbounded query. Fixed with cursor batching.
 - **/performance**: 200k rows took 71 s locally (target 120 s).
 - **/verify**: 5/5 ACs VERIFIED with test output. UNVERIFIED: email delivery in staging (needs SMTP credentials).
+- **/ship**: work done on `feat/invoice-csv-export`, branched from the latest `origin/main`. Three logical commits, pushed after the user approved.
 - **/release + /deploy**: behind flag `invoiceExport`, canary. **/observe**: `export_duration_seconds` metric, alert on failure rate.
 - **Learn**: appended "Queue jobs need explicit tenant context" to learnings.md.

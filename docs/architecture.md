@@ -17,6 +17,7 @@ Skill = command = workflow. amizloop has no separate `workflows/`, `commands/`, 
 - **Loop.** Every task runs observe → understand → act → verify → learn → adjust. Deploying does not end the loop: `/observe` feeds `/debug`, `/performance` and `/product`. Lessons are appended to `.amizloop/learnings.md`.
 - **Levels L0–L4** set how much process a task gets. L0 is act → verify. L4 adds a threat model, a staged rollout and sign-off.
 - **Routes** (bug, feature, incident, refactor, question) are starting points. `/amizing-mode` drops steps that add nothing and adds steps when risk requires them.
+- **Git flow** (`/ship`): before the first edit, fetch the parent branch (the one the user names, else the repo default) and branch from its latest commit. After `/verify` passes, commit only the task's files. Push only with user approval. Never push to the parent branch and never force-push a shared branch. Skipped outside git or when the user says to stay on the current branch.
 - **Gates** turn on only when triggered: requirements, architecture, implementation, testing, security, review, verification, release/deployment, production. A failed gate sends work back to the failing step. Extensions can add gates.
 - **Evidence tags**: FACT, OBS, ASSUME, HYPO, REC, DECISION. A claim without a citation is never a FACT.
 - **Review severities**: BLOCKING, IMPORTANT, SUGGESTION, NIT.

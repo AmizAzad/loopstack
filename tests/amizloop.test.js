@@ -22,7 +22,7 @@ const EXPLICIT = ['arena', 'caveman', 'compete', 'debate', 'interrogate', 'swarm
 const COMMANDS = ['amizing-mode', 'understand', 'research', 'product', 'requirements', 'architect', 'design', 'adr',
   'plan', 'implement', 'tdd', 'bdd', 'test', 'debug', 'review', 'security', 'performance', 'verify', 'release',
   'deploy', 'rollback', 'observe', 'incident', 'refactor', 'modernize', 'document', 'investigate', 'interrogate',
-  'arena', 'swarm', 'debate', 'compete', 'caveman', 'normal'];
+  'arena', 'swarm', 'debate', 'compete', 'caveman', 'normal', 'ship'];
 
 test('every recommended command has a skill', () => {
   for (const c of COMMANDS) assert.ok(skills.includes(c), `missing skill ${c}`);

@@ -20,6 +20,8 @@ node ../amizloop/bin/amizloop.js init --claude      # or --copilot --codex --gro
 
 Then ask your agent: `Implement CSV export for invoices`. Tasks with no command go through `/amizing-mode`; trivial ones are just done and verified. You can also call a skill directly: `/review`, `/debug`, and so on.
 
+In a git repo, code changes go on a new branch created from the latest parent branch. They are committed after `/verify` passes and pushed only after you approve (`/ship`).
+
 Re-run `amizloop sync` after you pull a new amizloop or change your extensions. `amizloop list` shows the merged skills.
 
 ## The loop
@@ -52,7 +54,7 @@ Lessons go in `.amizloop/learnings.md` and are read back at the start of L2+ tas
 | Design | `/architect` `/design` `/adr` `/api` `/database` `/frontend` |
 | Build | `/plan` `/implement` `/tdd` `/refactor` `/modernize` `/document` |
 | Quality | `/test` `/debug` `/review` `/security` `/performance` `/verify` |
-| Ship & operate | `/release` `/deploy` `/rollback` `/observe` `/incident` |
+| Ship & operate | `/ship` `/release` `/deploy` `/rollback` `/observe` `/incident` |
 | **Explicit-only** (never auto-run) | `/interrogate` `/arena` `/swarm` `/debate` `/compete` `/caveman` (off: `/normal` or `/caveman off`) |
 
 Each command is one file in [skills/](skills/). The skill file is the documentation for that command.
