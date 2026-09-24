@@ -4,8 +4,8 @@ An adaptive SDLC loop for AI coding agents. It sizes each task and runs only the
 
 ```
 loopstack = engineering principles (always loaded, ~370 tokens)
-         + small skills (loaded only when a step runs)
-         + /amizing-mode orchestration (size → route → gate → verify → learn)
+          + small skills (loaded only when a step runs)
+          + /amizing-mode orchestration (size → route → gate → verify → learn)
 ```
 
 Works with **Claude Code, GitHub Copilot, OpenAI Codex, Grok CLI**. Zero dependencies (Node ≥ 18).

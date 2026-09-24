@@ -8,7 +8,7 @@ agents/*.md          role lenses (Architect, Skeptic, …) for /debate, /compete
 templates/*.md       optional artifacts (ADR, test plan, postmortem, …), read only when needed
 extensions/          example layer (java-spring)
 adapters/*.js        harness-specific output, nothing else
-bin/loopstack.js      CLI: init, sync, list
+bin/loopstack.js     CLI: init, sync, list
 tests/               budgets, integrity, generation
 ```
 Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`, `checklists/` or `modes/` directories. Every capability lives in one file, so the agent never follows an indirection or loads the same text twice. Routes, levels and quality gates live only in [skills/amizing-mode.md](../skills/amizing-mode.md).
@@ -41,9 +41,9 @@ Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`,
 
 ## Generated in a target repo
 ```
-loopstack.json                          harnesses, layers, custom adapters
-.loopstack/{skills,agents,templates,gates}/   merged output (generated, do not edit)
-.loopstack/learnings.md                 loop memory (yours; never overwritten)
-.loopstack/manifest.json                tracks generated files so sync can prune them safely
+loopstack.json                               harnesses, layers, custom adapters
+.loopstack/{skills,agents,templates,gates}/  merged output (generated, do not edit)
+.loopstack/learnings.md                      loop memory (yours; never overwritten)
+.loopstack/manifest.json                     tracks generated files so sync can prune them safely
 + harness files (see adapters.md)
 ```
