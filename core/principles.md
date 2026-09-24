@@ -1,4 +1,4 @@
-# amizloop
+# loopstack
 Loop: observe → understand → act → verify → learn → adjust. Deploy is not the end.
 - Understand before changing; search before guessing; follow existing conventions.
 - Evidence over assumption. Tag claims when it matters: FACT, OBS, ASSUME, HYPO, REC, DECISION. Never state an assumption as fact.

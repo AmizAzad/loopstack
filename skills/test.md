@@ -19,4 +19,4 @@ Lowest level that proves the behaviour; go higher only for integration risk.
 | schema/data change | migration up+down on realistic data |
 | resilience | failure injection, restore/DR drill |
 Rules: behaviour not internals; deterministic (no sleeps; fixed clock/seed); one reason to fail; descriptive names; cover error paths.
-Run; report counts and failures verbatim. L3+: `.amizloop/templates/test-plan.md`.
+Run; report counts and failures verbatim. L3+: `.loopstack/templates/test-plan.md`.

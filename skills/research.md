@@ -8,4 +8,4 @@ description: Gather cited evidence from code, docs, libraries and standards befo
 3. Cover as relevant: capabilities, limits, performance, security, operational cost, licence, maintenance health.
 4. Tag findings FACT / OBS / ASSUME / HYPO / REC / DECISION. Cite file:line or URL. No citation → not FACT.
 5. Stop when the decision is supportable; list what is still unknown.
-L3+: `.amizloop/templates/research.md`.
+L3+: `.loopstack/templates/research.md`.

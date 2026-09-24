@@ -1,11 +1,11 @@
-# amizloop
+# loopstack
 
 An adaptive SDLC loop for AI coding agents. It sizes each task and runs only the workflows that task needs, so every step stays small and token-cheap.
 
 ```
-amizloop = engineering principles (always loaded, ~370 tokens)
-         + small skills (loaded only when a step runs)
-         + /amizing-mode orchestration (size → route → gate → verify → learn)
+loopstack = engineering principles (always loaded, ~370 tokens)
+          + small skills (loaded only when a step runs)
+          + /amizing-mode orchestration (size → route → gate → verify → learn)
 ```
 
 Works with **Claude Code, GitHub Copilot, OpenAI Codex, Grok CLI**. Zero dependencies (Node ≥ 18).
@@ -13,16 +13,16 @@ Works with **Claude Code, GitHub Copilot, OpenAI Codex, Grok CLI**. Zero depende
 ## Quick start
 
 ```sh
-git clone <this repo> amizloop
+git clone <this repo> loopstack
 cd your-project
-node ../amizloop/bin/amizloop.js init --claude      # or --copilot --codex --grok --all
+node ../loopstack/bin/loopstack.js init --claude      # or --copilot --codex --grok --all
 ```
 
 Then ask your agent: `Implement CSV export for invoices`. Tasks with no command go through `/amizing-mode`; trivial ones are just done and verified. You can also call a skill directly: `/review`, `/debug`, and so on.
 
 In a git repo, code changes go on a new branch created from the latest parent branch. They are committed after `/verify` passes and pushed only after you approve (`/ship`).
 
-Re-run `amizloop sync` after you pull a new amizloop or change your extensions. `amizloop list` shows the merged skills.
+Re-run `loopstack sync` after you pull a new loopstack or change your extensions. `loopstack list` shows the merged skills.
 
 ## The loop
 
@@ -42,7 +42,7 @@ Each task runs a slice of it. The slice depends on the task's level:
 | L3 complex | new component, contract change | + research, design/ADR, security, release plan |
 | L4 high-risk | payments, data migration, incident | + threat model, staged rollout, sign-off |
 
-Lessons go in `.amizloop/learnings.md` and are read back at the start of L2+ tasks. Signals from `/observe` feed `/debug`, `/performance` and `/product`.
+Lessons go in `.loopstack/learnings.md` and are read back at the start of L2+ tasks. Signals from `/observe` feed `/debug`, `/performance` and `/product`.
 
 ## Commands
 

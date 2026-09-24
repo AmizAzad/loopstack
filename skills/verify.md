@@ -10,8 +10,8 @@ Answer each with evidence (command + result, API response, log, metric, deploy s
 4. Secure enough for its context?
 5. Observable?
 6. Deployable? (build, config, migrations, flags)
-Also apply gates in `.amizloop/gates/` if present.
+Also apply gates in `.loopstack/gates/` if present.
 Output:
 VERIFIED: <item> — <evidence>
 UNVERIFIED: <item> — <why / how to verify>
-Never report UNVERIFIED as done. Template: `.amizloop/templates/verification.md`.
+Never report UNVERIFIED as done. Template: `.loopstack/templates/verification.md`.

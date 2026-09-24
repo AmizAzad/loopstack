@@ -7,15 +7,15 @@ const path = require('path');
 const CORE = path.resolve(__dirname, '..');
 const HARNESSES = ['claude', 'copilot', 'codex', 'grok'];
 const KINDS = ['skills', 'agents', 'templates', 'gates'];
-const CONFIG = 'amizloop.json';
-const MANIFEST = '.amizloop/manifest.json';
-const START = '<!-- amizloop:start -->';
-const END = '<!-- amizloop:end -->';
-const BLOCK_RE = /<!-- amizloop:start -->[\s\S]*?<!-- amizloop:end -->\r?\n?/;
-const USAGE = `usage: amizloop <command> [--dir <path>] [--force]
+const CONFIG = 'loopstack.json';
+const MANIFEST = '.loopstack/manifest.json';
+const START = '<!-- loopstack:start -->';
+const END = '<!-- loopstack:end -->';
+const BLOCK_RE = /<!-- loopstack:start -->[\s\S]*?<!-- loopstack:end -->\r?\n?/;
+const USAGE = `usage: loopstack <command> [--dir <path>] [--force]
   init --claude --copilot --codex --grok | --all   add harnesses, generate files
-  sync                                             regenerate from amizloop.json
-  --force                                          overwrite same-named files amizloop did not create
+  sync                                             regenerate from loopstack.json
+  --force                                          overwrite same-named files loopstack did not create
   list                                             show merged skills`;
 
 const read = f => fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n');
@@ -39,10 +39,10 @@ function readConfig(dir) {
   return fs.existsSync(p) ? { harnesses: [], layers: [], ...JSON.parse(read(p)) } : { harnesses: [], layers: [] };
 }
 
-// Core first, then configured layers, then .amizloop-local. Same name replaces; <name>.append.md extends.
+// Core first, then configured layers, then .loopstack-local. Same name replaces; <name>.append.md extends.
 function load(dir, cfg) {
   const layers = [CORE, ...cfg.layers.map(l => path.resolve(dir, l.replace(/^~(?=$|[\\/])/, os.homedir())))];
-  if (fs.existsSync(path.join(dir, '.amizloop-local'))) layers.push(path.join(dir, '.amizloop-local'));
+  if (fs.existsSync(path.join(dir, '.loopstack-local'))) layers.push(path.join(dir, '.loopstack-local'));
   const b = { principles: read(path.join(CORE, 'core/principles.md')).trim() };
   for (const k of [...KINDS, 'rules']) b[k] = new Map();
   for (const layer of layers) {
@@ -65,7 +65,7 @@ function alwaysOn(b, index) {
   const explicit = names.filter(n => parse(b.skills.get(n)).meta.explicit === 'true');
   const cmd = [
     '## Commands',
-    '`/<name>` → follow `.amizloop/skills/<name>.md` (or the native command). Load only what the task needs.',
+    '`/<name>` → follow `.loopstack/skills/<name>.md` (or the native command). Load only what the task needs.',
     'Task without a command: trivial → do it and verify; otherwise follow /amizing-mode.',
     `Explicit-only, never auto-run: ${explicit.map(n => `/${n}`).join(' ')}.`,
   ];
@@ -111,14 +111,14 @@ function sync(dir, force) {
   if (!cfg.harnesses.length) throw new Error(`no harnesses in ${CONFIG}\n${USAGE}`);
   const b = load(dir, cfg);
   const out = [];
-  for (const k of KINDS) for (const [n, t] of b[k]) out.push({ path: `.amizloop/${k}/${n}.md`, content: t });
+  for (const k of KINDS) for (const [n, t] of b[k]) out.push({ path: `.loopstack/${k}/${n}.md`, content: t });
   for (const h of cfg.harnesses) out.push(...adapter(dir, cfg, h)(b, helpers(b)));
 
   const mp = path.join(dir, MANIFEST);
   const old = fs.existsSync(mp) ? JSON.parse(read(mp)) : { files: [], blocks: [] };
   const conflicts = out.filter(f => !('block' in f) && !old.files.includes(f.path)
     && fs.existsSync(path.join(dir, f.path)) && read(path.join(dir, f.path)) !== f.content).map(f => f.path);
-  if (conflicts.length && !force) throw new Error(`refusing to overwrite files amizloop did not create (rerun with --force):\n  ${conflicts.join('\n  ')}`);
+  if (conflicts.length && !force) throw new Error(`refusing to overwrite files loopstack did not create (rerun with --force):\n  ${conflicts.join('\n  ')}`);
   const now = { files: [], blocks: [] };
   for (const f of out) {
     const p = path.join(dir, f.path);
@@ -129,7 +129,7 @@ function sync(dir, force) {
   old.files.filter(f => !now.files.includes(f)).forEach(f => removeFile(dir, f));
   old.blocks.filter(f => !now.blocks.includes(f)).forEach(f => removeBlock(path.join(dir, f)));
   fs.writeFileSync(mp, `${JSON.stringify(now, null, 2)}\n`);
-  console.log(`amizloop: ${now.files.length} files, ${now.blocks.length} instruction blocks → ${cfg.harnesses.join(', ')}`);
+  console.log(`loopstack: ${now.files.length} files, ${now.blocks.length} instruction blocks → ${cfg.harnesses.join(', ')}`);
 }
 
 function init(dir, flags) {
@@ -139,9 +139,9 @@ function init(dir, flags) {
   const picked = flags.has('all') ? HARNESSES : HARNESSES.filter(h => flags.has(h));
   if (!picked.length && !cfg.harnesses.length) throw new Error(`pick a harness\n${USAGE}`);
   cfg.harnesses = [...new Set([...cfg.harnesses, ...picked])];
-  fs.mkdirSync(path.join(dir, '.amizloop'), { recursive: true });
+  fs.mkdirSync(path.join(dir, '.loopstack'), { recursive: true });
   fs.writeFileSync(path.join(dir, CONFIG), `${JSON.stringify(cfg, null, 2)}\n`);
-  const learn = path.join(dir, '.amizloop/learnings.md');
+  const learn = path.join(dir, '.loopstack/learnings.md');
   if (!fs.existsSync(learn)) fs.writeFileSync(learn, '# Learnings\nOne line per non-obvious lesson. Read at intake of L2+ tasks.\n');
   sync(dir, flags.has('force'));
 }
@@ -173,6 +173,6 @@ function main(argv) {
 try {
   main(process.argv.slice(2));
 } catch (e) {
-  console.error(`amizloop: ${e.message}`);
+  console.error(`loopstack: ${e.message}`);
   process.exitCode = 1;
 }
