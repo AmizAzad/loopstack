@@ -3,12 +3,14 @@
 ## Layout
 ```
 core/principles.md   the only always-on text
+core/telemetry.md    opt-in log step spliced into amizing-mode when "telemetry": true
 skills/*.md          one file per command: frontmatter (name, description, explicit?) + terse steps
 agents/*.md          role lenses (Architect, Skeptic, …) for /debate, /compete, /swarm
 templates/*.md       optional artifacts (ADR, test plan, postmortem, …), read only when needed
 extensions/          example layer (java-spring)
 adapters/*.js        harness-specific output, nothing else
-bin/loopstack.js     CLI: init, sync, list
+bin/loopstack.js     CLI: init, sync, list, dashboard
+bin/dashboard.js     usage dashboard (Node builtins only; copied into repos with telemetry on)
 tests/               budgets, integrity, generation
 ```
 Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`, `checklists/` or `modes/` directories. Every capability lives in one file, so the agent never follows an indirection or loads the same text twice. Routes, levels and quality gates live only in [skills/amizing-mode.md](../skills/amizing-mode.md).
@@ -44,6 +46,7 @@ Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`,
 loopstack.json                               harnesses, layers, custom adapters
 .loopstack/{skills,agents,templates,gates}/  merged output (generated, do not edit)
 .loopstack/learnings.md                      loop memory (yours; never overwritten)
-.loopstack/manifest.json                     tracks generated files so sync can prune them safely
+.loopstack/manifest.json                     tracks generated files (and the loopstack version) so sync can prune them safely
 + harness files (see adapters.md)
 ```
+With `"telemetry": true` (opt-in), sync also writes `.loopstack/dashboard.js` and marker blocks in `.gitattributes` (union merge for the log) and `.gitignore`. The agent appends to `.loopstack/runs.jsonl`, which is user data like `learnings.md`: never generated or pruned. See [dashboard.md](dashboard.md).

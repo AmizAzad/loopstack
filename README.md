@@ -44,6 +44,17 @@ Each task runs a slice of it. The slice depends on the task's level:
 
 Lessons go in `.loopstack/learnings.md` and are read back at the start of L2+ tasks. Signals from `/observe` feed `/debug`, `/performance` and `/product`.
 
+## Usage dashboard (opt-in)
+
+Add `"telemetry": true` to `loopstack.json` and run `loopstack sync`. Each `/amizing-mode` task then appends one line of counts to `.loopstack/runs.jsonl`: no prompts, no code, no names. `/ls-usage-dashboard` (or `loopstack dashboard --dir a --dir b`) turns those lines into one offline HTML page. It shows task sizes, gate failures, rework, skill use, sizing accuracy, the ship funnel, project drift and suggested adjustments. Off by default; see [docs/dashboard.md](docs/dashboard.md).
+
+## Upgrading
+
+1. Pull the new loopstack.
+2. Run `loopstack sync` in each repo, or have one teammate sync and commit the generated files so everyone gets them on pull.
+
+There are no manual migration steps. Since 0.2.0 the manifest records the loopstack version, which the dashboard uses to flag repos that are behind; older manifests show as `pre-0.2`. Telemetry stays off until a team turns it on. To roll back, remove `"telemetry"` and sync: the log step, script and git blocks are removed, and `runs.jsonl` is kept as inert data.
+
 ## Commands
 
 | Area | Commands |
@@ -55,7 +66,7 @@ Lessons go in `.loopstack/learnings.md` and are read back at the start of L2+ ta
 | Build | `/plan` `/implement` `/tdd` `/refactor` `/modernize` `/document` |
 | Quality | `/test` `/debug` `/review` `/security` `/performance` `/verify` |
 | Ship & operate | `/ship` `/release` `/deploy` `/rollback` `/observe` `/incident` |
-| **Explicit-only** (never auto-run) | `/interrogate` `/arena` `/swarm` `/debate` `/compete` `/caveman` (off: `/normal` or `/caveman off`) |
+| **Explicit-only** (never auto-run) | `/interrogate` `/arena` `/swarm` `/debate` `/compete` `/caveman` (off: `/normal` or `/caveman off`) `/ls-usage-dashboard` |
 
 Each command is one file in [skills/](skills/). The skill file is the documentation for that command.
 
@@ -64,7 +75,8 @@ Each command is one file in [skills/](skills/). The skill file is the documentat
 - [Architecture & concepts](docs/architecture.md): design, token strategy, multi-agent and caveman design
 - [Harness setup](docs/adapters.md): what gets generated for each agent
 - [Extending](docs/extending.md): add rules, skills, gates, agents or adapters without forking
-- Examples: [bug (L1)](examples/bug.md) · [feature (L3)](examples/feature.md) · [incident (L4)](examples/incident.md) · [debate](examples/debate.md)
+- [Usage dashboard](docs/dashboard.md): opt-in telemetry, log schema, metrics, privacy ([ADR 0001](docs/adr/0001-usage-telemetry.md))
+- Examples: [bug (L1)](examples/bug.md) · [feature (L3)](examples/feature.md) · [incident (L4)](examples/incident.md) · [debate](examples/debate.md) · [dashboard prompt](examples/dashboard-prompt.md)
 
 ## Test
 
