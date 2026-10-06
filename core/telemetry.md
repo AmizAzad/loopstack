@@ -1,0 +1,1 @@
+8. Log: append a line to `.loopstack/runs.jsonl`, no free text: {"v":1,"ts":"<UTC ISO>","lvl":<final L>,"lvl0":<first L>,"route":"<route>","skills":[<run>],"gates":{"<failed gate>":<n>},"loops":<loop-backs>,"unv":<UNVERIFIED>,"learn":<lessons>,"ship":"none|committed|pushed|pr","h":"<harness>"}

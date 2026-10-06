@@ -1,6 +1,6 @@
 {
   "name": "loopstack",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Adaptive, token-efficient SDLC loop for AI coding agents (Claude, Copilot, Codex, Grok).",
   "bin": { "loopstack": "bin/loopstack.js" },
   "files": ["bin", "adapters", "core", "skills", "agents", "templates", "extensions"],
