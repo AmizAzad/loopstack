@@ -9,14 +9,17 @@ const HARNESSES = ['claude', 'copilot', 'codex', 'grok'];
 const KINDS = ['skills', 'agents', 'templates', 'gates'];
 const CONFIG = 'loopstack.json';
 const MANIFEST = '.loopstack/manifest.json';
-const START = '<!-- loopstack:start -->';
-const END = '<!-- loopstack:end -->';
-const BLOCK_RE = /<!-- loopstack:start -->[\s\S]*?<!-- loopstack:end -->\r?\n?/;
+const VERSION = require('../package.json').version;
+// .gitattributes/.gitignore take # comments; every other managed file is markdown.
+const MARKS = p => (/^\.git(attributes|ignore)$/.test(path.basename(p))
+  ? ['# loopstack:start', '# loopstack:end'] : ['<!-- loopstack:start -->', '<!-- loopstack:end -->']);
+const blockRe = p => new RegExp(`${MARKS(p)[0]}[\\s\\S]*?${MARKS(p)[1]}\\r?\\n?`);
 const USAGE = `usage: loopstack <command> [--dir <path>] [--force]
   init --claude --copilot --codex --grok | --all   add harnesses, generate files
   sync                                             regenerate from loopstack.json
   --force                                          overwrite same-named files loopstack did not create
-  list                                             show merged skills`;
+  list                                             show merged skills
+  dashboard [--help]                               write the usage dashboard (needs "telemetry": true)`;
 
 const read = f => fs.readFileSync(f, 'utf8').replace(/\r\n/g, '\n');
 const isAppend = f => f.endsWith('.append.md');
@@ -57,6 +60,12 @@ function load(dir, cfg) {
       }
     }
   }
+  // Opt-in usage log: one step in amizing-mode, before Report. Off → zero bytes added.
+  if (cfg.telemetry === true && b.skills.has('amizing-mode')) {
+    const log = read(path.join(CORE, 'core/telemetry.md')).trim();
+    const t = b.skills.get('amizing-mode');
+    b.skills.set('amizing-mode', /^8\. Report/m.test(t) ? t.replace(/^8\. Report/m, () => `${log}\n9. Report`) : `${t.trimEnd()}\n${log}\n`);
+  }
   return b;
 }
 
@@ -86,14 +95,15 @@ function adapter(dir, cfg, name) {
 }
 
 function upsertBlock(p, body) {
-  const block = `${START}\n${body.trim()}\n${END}\n`;
+  const [start, end] = MARKS(p);
+  const block = `${start}\n${body.trim()}\n${end}\n`;
   const cur = fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '';
-  fs.writeFileSync(p, BLOCK_RE.test(cur) ? cur.replace(BLOCK_RE, () => block) : (cur.trim() ? `${cur.trimEnd()}\n\n` : '') + block);
+  fs.writeFileSync(p, blockRe(p).test(cur) ? cur.replace(blockRe(p), () => block) : (cur.trim() ? `${cur.trimEnd()}\n\n` : '') + block);
 }
 
 function removeBlock(p) {
   if (!fs.existsSync(p)) return;
-  const rest = fs.readFileSync(p, 'utf8').replace(BLOCK_RE, '').trim();
+  const rest = fs.readFileSync(p, 'utf8').replace(blockRe(p), '').trim();
   if (rest) fs.writeFileSync(p, `${rest}\n`);
   else fs.unlinkSync(p);
 }
@@ -113,13 +123,19 @@ function sync(dir, force) {
   const out = [];
   for (const k of KINDS) for (const [n, t] of b[k]) out.push({ path: `.loopstack/${k}/${n}.md`, content: t });
   for (const h of cfg.harnesses) out.push(...adapter(dir, cfg, h)(b, helpers(b)));
+  // .loopstack/runs.jsonl is user data like learnings.md: never generated, never pruned.
+  if (cfg.telemetry === true) out.push(
+    { path: '.loopstack/dashboard.js', content: read(path.join(__dirname, 'dashboard.js')) },
+    { path: '.gitattributes', block: '.loopstack/runs.jsonl merge=union' },
+    { path: '.gitignore', block: 'loopstack-dashboard.html' },
+  );
 
   const mp = path.join(dir, MANIFEST);
   const old = fs.existsSync(mp) ? JSON.parse(read(mp)) : { files: [], blocks: [] };
   const conflicts = out.filter(f => !('block' in f) && !old.files.includes(f.path)
     && fs.existsSync(path.join(dir, f.path)) && read(path.join(dir, f.path)) !== f.content).map(f => f.path);
   if (conflicts.length && !force) throw new Error(`refusing to overwrite files loopstack did not create (rerun with --force):\n  ${conflicts.join('\n  ')}`);
-  const now = { files: [], blocks: [] };
+  const now = { version: VERSION, files: [], blocks: [] };
   for (const f of out) {
     const p = path.join(dir, f.path);
     fs.mkdirSync(path.dirname(p), { recursive: true });
@@ -129,7 +145,7 @@ function sync(dir, force) {
   old.files.filter(f => !now.files.includes(f)).forEach(f => removeFile(dir, f));
   old.blocks.filter(f => !now.blocks.includes(f)).forEach(f => removeBlock(path.join(dir, f)));
   fs.writeFileSync(mp, `${JSON.stringify(now, null, 2)}\n`);
-  console.log(`loopstack: ${now.files.length} files, ${now.blocks.length} instruction blocks → ${cfg.harnesses.join(', ')}`);
+  console.log(`loopstack: ${now.files.length} files, ${now.blocks.length} managed blocks → ${cfg.harnesses.join(', ')}${cfg.telemetry === true ? ' (telemetry on)' : ''}`);
 }
 
 function init(dir, flags) {
@@ -155,6 +171,7 @@ function list(dir) {
 
 function main(argv) {
   const [cmd, ...rest] = argv;
+  if (cmd === 'dashboard') return require('./dashboard.js').main(rest);
   let dir = process.cwd();
   const flags = new Set();
   for (let i = 0; i < rest.length; i++) {
