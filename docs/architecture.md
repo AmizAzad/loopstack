@@ -11,6 +11,7 @@ extensions/          example layer (java-spring)
 adapters/*.js        harness-specific output, nothing else
 bin/loopstack.js     CLI: init, sync, list, dashboard
 bin/dashboard.js     usage dashboard (Node builtins only; copied into repos with telemetry on)
+bin/statechart.js    TLC runner + Mermaid statechart for /statechart and /formal (Node builtins only; copied into repos)
 tests/               budgets, integrity, generation
 ```
 Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`, `checklists/` or `modes/` directories. Every capability lives in one file, so the agent never follows an indirection or loads the same text twice. Routes, levels and quality gates live only in [skills/amizing-mode.md](../skills/amizing-mode.md).
@@ -26,7 +27,7 @@ Skill = command = workflow. loopstack has no separate `workflows/`, `commands/`,
 
 ## Token strategy
 1. The always-on text is the principles plus a 4-line command block: about 370 tokens on Claude and about 450 elsewhere, because other harnesses also get a skill-name index. A test enforces the limit.
-2. Skills are ≤1.6 KB each (amizing-mode ≤3 KB, also test-enforced) and load only when their step runs.
+2. Skills are ≤1.6 KB each (amizing-mode ≤3.4 KB, also test-enforced) and load only when their step runs.
 3. Skills point to other skills (`/security`) and to templates by path instead of copying them.
 4. `/amizing-mode` sizes the task first, so L0 and L1 tasks never load most skills.
 5. Extensions are merged when `sync` runs, not while the agent works, so adding layers costs no extra reads.
@@ -49,4 +50,5 @@ loopstack.json                               harnesses, layers, custom adapters
 .loopstack/manifest.json                     tracks generated files (and the loopstack version) so sync can prune them safely
 + harness files (see adapters.md)
 ```
+Sync also writes `.loopstack/statechart.js`, which `/statechart` and `/formal` run (it needs Java and `tla2tools.jar` only when used). Formal checks register as gates in `.loopstack-local/gates/formal-<area>.md` ([ADR 0002](adr/0002-formal-verification-and-statecharts.md)).
 With `"telemetry": true` (opt-in), sync also writes `.loopstack/dashboard.js` and marker blocks in `.gitattributes` (union merge for the log) and `.gitignore`. The agent appends to `.loopstack/runs.jsonl`, which is user data like `learnings.md`: never generated or pruned. See [dashboard.md](dashboard.md).

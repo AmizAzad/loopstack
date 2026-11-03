@@ -18,6 +18,7 @@ description: Orchestrate an engineering task - size it, run only the needed skil
 - incident: incident (mitigate first) → verify → investigate → corrective action → verify → observe
 - refactor/upgrade: understand → test (pin behaviour) → refactor|modernize → verify
 - question: understand|research → answer with evidence tags
+- formal (add to any route only on signal): costly ordering, concurrency, retry, lease or state-machine logic that tests rarely reach, or the user asks to prove/model-check → /formal; a state flow someone must see or sign off → /statechart. Never for CRUD, glue or UI.
 Each step = skill `/name`; load it only when the step runs.
 4. Gates (only when triggered): requirements L2+ · architecture L3+ · implementation (builds, lint) · testing · security (auth, input, secrets, deps, PII) · review L1+ · verification always · release/deployment if shipping · production L3+ shipped · extension gates `.loopstack/gates/*.md`. Gate fails → loop back to the failing step.
 5. Execute: one-line result per step. Evidence contradicts plan → replan. Code change in a git repo → /ship start before the first edit.

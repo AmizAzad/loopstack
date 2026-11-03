@@ -123,6 +123,8 @@ function sync(dir, force) {
   const out = [];
   for (const k of KINDS) for (const [n, t] of b[k]) out.push({ path: `.loopstack/${k}/${n}.md`, content: t });
   for (const h of cfg.harnesses) out.push(...adapter(dir, cfg, h)(b, helpers(b)));
+  // TLC runner for /statechart and /formal; runs standalone without the CLI, like dashboard.js.
+  if (b.skills.has('statechart')) out.push({ path: '.loopstack/statechart.js', content: read(path.join(__dirname, 'statechart.js')) });
   // .loopstack/runs.jsonl is user data like learnings.md: never generated, never pruned.
   if (cfg.telemetry === true) out.push(
     { path: '.loopstack/dashboard.js', content: read(path.join(__dirname, 'dashboard.js')) },

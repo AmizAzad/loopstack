@@ -48,6 +48,15 @@ Lessons go in `.loopstack/learnings.md` and are read back at the start of L2+ ta
 
 Add `"telemetry": true` to `loopstack.json` and run `loopstack sync`. Each `/amizing-mode` task then appends one line of counts to `.loopstack/runs.jsonl`: no prompts, no code, no names. `/ls-usage-dashboard` (or `loopstack dashboard --dir a --dir b`) turns those lines into one offline HTML page. It shows task sizes, gate failures, rework, skill use, sizing accuracy, the ship funnel, project drift and suggested adjustments. Off by default; see [docs/dashboard.md](docs/dashboard.md).
 
+## Formal checks and statecharts (on signal)
+
+`/amizing-mode` adds these only when a task needs them: logic with costly ordering, concurrency, retries, leases or state machines that tests rarely reach, a request to prove or model-check something, or a state flow someone must sign off. Ordinary CRUD, glue and UI work never loads them.
+
+- `/formal` picks the strongest promise in scope, chooses a tool (a TLA+ model for event order, a code verifier or property tests for inputs), shows the check can fail, and keeps findings as findings. It leaves a gate (`.loopstack-local/gates/formal-<area>.md`) so `/verify` reruns the check and flags drift when the covered code changes.
+- `/statechart` checks a TLA+ model with TLC and draws it as a Mermaid statechart in the reader's words, with the shortest path to each broken rule. The runner is `.loopstack/statechart.js` (Node builtins only). It needs Java 11+ and `tla2tools.jar` (`$TLA2TOOLS` or `~/.loopstack/tla2tools.jar`); run `node .loopstack/statechart.js --help` for the pinned URL and checksum.
+
+See [ADR 0002](docs/adr/0002-formal-verification-and-statecharts.md).
+
 ## Upgrading
 
 1. Pull the new loopstack.
@@ -64,7 +73,7 @@ There are no manual migration steps. Since 0.2.0 the manifest records the loopst
 | Understand | `/understand` `/research` `/investigate` |
 | Design | `/architect` `/design` `/adr` `/api` `/database` `/frontend` |
 | Build | `/plan` `/implement` `/tdd` `/refactor` `/modernize` `/document` |
-| Quality | `/test` `/debug` `/review` `/security` `/performance` `/verify` |
+| Quality | `/test` `/debug` `/review` `/security` `/performance` `/verify` `/formal` `/statechart` |
 | Ship & operate | `/ship` `/release` `/deploy` `/rollback` `/observe` `/incident` |
 | **Explicit-only** (never auto-run) | `/interrogate` `/arena` `/swarm` `/debate` `/compete` `/caveman` (off: `/normal` or `/caveman off`) `/ls-usage-dashboard` |
 

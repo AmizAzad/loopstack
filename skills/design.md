@@ -11,6 +11,6 @@ Cover only what the change touches:
 - Security → /security when authn/z, input, secrets or PII are involved.
 - Logging, metrics, tracing, alerts for new paths.
 - Performance budget; failure modes (timeouts, partial failure, backpressure).
-- UI → /frontend.
+- UI → /frontend. Costly races, retries, state machines → /formal; flow to sign off → /statechart.
 Diagram flows when it clarifies (mermaid sequence). Note rejected alternatives.
 Template: `.loopstack/templates/design.md`.
